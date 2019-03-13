@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2829f133-a9d3-49f2-9d4e-9efa8878dbf7/deploy-status)](https://app.netlify.com/sites/fountain-gist-viewer/deploys)
+
+# Fountain - A GitHub Gist Viewer
 
 ## Available Scripts
 
