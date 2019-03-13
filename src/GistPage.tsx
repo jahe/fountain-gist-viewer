@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { LoadingStatus, Gist_API, GistFile_API } from './types'
 import { fetchGist } from './api'
+import axios from 'axios'
+
+const CancelToken = axios.CancelToken
 
 export default function GistPage({ username, gistId }: { username: string; gistId: string }) {
   const [gist, setGist] = useState<Gist_API>()
@@ -10,9 +13,13 @@ export default function GistPage({ username, gistId }: { username: string; gistI
   useEffect(() => {
     document.title = `${username}'s gist`
 
+    const cancelTokenSource = CancelToken.source()
     ;(async () => {
       try {
-        const fetchedGist = await fetchGist(gistId)
+        const fetchedGist = await fetchGist(gistId, cancelTokenSource.token)
+        if (!fetchedGist) {
+          return
+        }
         document.title = `${fetchedGist.description} - ${username}'s gist`
         setStatus(LoadingStatus.SuccessfullyLoaded)
         setGist(fetchedGist)
@@ -21,6 +28,10 @@ export default function GistPage({ username, gistId }: { username: string; gistI
         setError(error)
       }
     })()
+
+    return () => {
+      cancelTokenSource.cancel()
+    }
   }, [username, gistId])
 
   switch (status) {

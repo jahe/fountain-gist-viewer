@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { LoadingStatus, Gist_API } from './types'
 import { fetchUsersGists } from './api'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+
+const CancelToken = axios.CancelToken
 
 export function UsersGistsPage({ username }: { username: string }) {
   const [gists, setGists] = useState<Gist_API[]>()
@@ -12,9 +15,11 @@ export function UsersGistsPage({ username }: { username: string }) {
 
   useEffect(() => {
     document.title = `${usernameLowerCase}'s gists`
+
+    const cancelTokenSource = CancelToken.source()
     ;(async () => {
       try {
-        const gists = await fetchUsersGists(usernameLowerCase)
+        const gists = await fetchUsersGists(usernameLowerCase, cancelTokenSource.token)
         setStatus(LoadingStatus.SuccessfullyLoaded)
         setGists(gists)
       } catch (error) {
@@ -22,6 +27,10 @@ export function UsersGistsPage({ username }: { username: string }) {
         setError(error)
       }
     })()
+
+    return () => {
+      cancelTokenSource.cancel()
+    }
   }, [usernameLowerCase])
 
   return (
