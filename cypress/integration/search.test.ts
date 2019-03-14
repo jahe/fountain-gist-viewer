@@ -1,6 +1,6 @@
 describe('Search Page', function() {
   it('should list the users gists', function() {
-    cy.visit('http://localhost:3000')
+    cy.visit('')
 
     cy.get('input')
       .type('jahe')

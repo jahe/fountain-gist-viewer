@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@types/jest": "24.0.11",
-    "@types/node": "11.11.1",
-    "@types/react": "16.8.7",
+    "@types/node": "11.11.3",
+    "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
     "axios": "^0.18.0",
     "react": "^16.8.4",
@@ -22,7 +22,14 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test:coverage": "npm test -- --coverage",
-    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls",
+    "upgrade-interactive": "npm-check -u",
+    "netlify": "npm-run-all --parallel test netlify:cypress",
+    "netlify:cypress": "npm-run-all --parallel install:cypress build && npm run test:e2e",
+    "test:e2e": "start-server-and-test serve http://localhost:5020 cy:run",
+    "cy:run": "CYPRESS_BASE_URL=http://localhost:5020 cypress run",
+    "serve": "serve -s build -l 5020",
+    "install:cypress": "cypress install"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +45,9 @@
     "coveralls": "^3.0.3",
     "cypress": "^3.1.5",
     "npm-check": "^5.9.0",
-    "prettier": "^1.16.4"
+    "npm-run-all": "4.1.5",
+    "prettier": "^1.16.4",
+    "serve": "10.1.2",
+    "start-server-and-test": "1.7.11"
   }
 }
