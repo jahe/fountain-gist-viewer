@@ -22,7 +22,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "test:coverage": "npm test -- --coverage",
-    "coveralls": "npm run test:coverage && cat ./tests/coverage/lcov.info | coveralls"
+    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls"
   },
   "eslintConfig": {
     "extends": "react-app"
