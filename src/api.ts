@@ -1,4 +1,4 @@
-import axios, { CancelToken, CancelTokenSource } from 'axios'
+import axios, { CancelToken } from 'axios'
 import { Gist_API, UsersGistsResponse } from './types'
 
 const GISTS_PER_PAGE = 100
@@ -12,25 +12,33 @@ async function fetchUsersGistsRecursively(
   cancelToken?: CancelToken,
   page: number = 1
 ): Promise<Gist_API[]> {
-  const { data: gists } = await axios.get<UsersGistsResponse>(
-    `https://api.github.com/users/${username}/gists`,
-    {
-      cancelToken,
-      params: {
-        per_page: GISTS_PER_PAGE,
-        page
+  try {
+    const { data: gists } = await axios.get<UsersGistsResponse>(
+      `https://api.github.com/users/${username}/gists`,
+      {
+        cancelToken,
+        params: {
+          per_page: GISTS_PER_PAGE,
+          page
+        }
       }
-    }
-  )
+    )
 
-  if (gists && gists.length && gists.length >= GISTS_PER_PAGE) {
-    return [...gists, ...(await fetchUsersGistsRecursively(username, cancelToken, page + 1))]
-  } else {
-    return gists
+    if (gists && gists.length && gists.length >= GISTS_PER_PAGE) {
+      return [...gists, ...(await fetchUsersGistsRecursively(username, cancelToken, page + 1))]
+    } else {
+      return gists
+    }
+  } catch (error) {
+    if (axios.isCancel(error)) {
+      return []
+    } else {
+      throw error
+    }
   }
 }
 
-export async function fetchGist(gistId: string, cancelToken?: CancelToken) {
+export async function fetchGist(gistId: string, cancelToken?: CancelToken): Promise<Gist_API | null> {
   try {
     const { data: gist } = await axios.get<Gist_API>(`https://api.github.com/gists/${gistId}`, {
       cancelToken
@@ -38,7 +46,7 @@ export async function fetchGist(gistId: string, cancelToken?: CancelToken) {
     return gist
   } catch (error) {
     if (axios.isCancel(error)) {
-      console.log('Request canceled', error.message)
+      return null
     } else {
       throw error
     }

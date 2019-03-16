@@ -11,25 +11,30 @@ export default function GistPage({ username, gistId }: { username: string; gistI
   const [status, setStatus] = useState(LoadingStatus.Loading)
 
   useEffect(() => {
+    let didCancel = false
     document.title = `${username}'s gist`
 
     const cancelTokenSource = CancelToken.source()
     ;(async () => {
       try {
         const fetchedGist = await fetchGist(gistId, cancelTokenSource.token)
-        if (!fetchedGist) {
+        if (!fetchedGist || didCancel) {
           return
         }
         document.title = `${fetchedGist.description} - ${username}'s gist`
         setStatus(LoadingStatus.SuccessfullyLoaded)
         setGist(fetchedGist)
       } catch (error) {
+        if (didCancel) {
+          return
+        }
         setStatus(LoadingStatus.FailedLoading)
         setError(error)
       }
     })()
 
     return () => {
+      didCancel = true
       cancelTokenSource.cancel()
     }
   }, [username, gistId])

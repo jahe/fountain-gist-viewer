@@ -14,21 +14,29 @@ export function UsersGistsPage({ username }: { username: string }) {
   const usernameLowerCase = username.toLowerCase()
 
   useEffect(() => {
+    let didCancel = false
     document.title = `${usernameLowerCase}'s gists`
 
     const cancelTokenSource = CancelToken.source()
     ;(async () => {
       try {
         const gists = await fetchUsersGists(usernameLowerCase, cancelTokenSource.token)
+        if (didCancel) {
+          return
+        }
         setStatus(LoadingStatus.SuccessfullyLoaded)
         setGists(gists)
       } catch (error) {
+        if (didCancel) {
+          return
+        }
         setStatus(LoadingStatus.FailedLoading)
         setError(error)
       }
     })()
 
     return () => {
+      didCancel = true
       cancelTokenSource.cancel()
     }
   }, [usernameLowerCase])
