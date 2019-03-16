@@ -19,17 +19,17 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "netlify": "npm-run-all --parallel coveralls netlify:cypress",
+    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls",
+    "test:coverage": "npm test -- --coverage",
+    "netlify:cypress": "npm-run-all --parallel install:cypress build && npm run test:e2e",
+    "install:cypress": "cypress install",
+    "test:e2e": "start-server-and-test serve http://localhost:5020 cy:run",
+    "serve": "serve -s build -l 5020",
+    "cy:run": "CYPRESS_BASE_URL=http://localhost:5020 cypress run",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "test:coverage": "npm test -- --coverage",
-    "coveralls": "npm run test:coverage && cat ./coverage/lcov.info | coveralls",
-    "upgrade-interactive": "npm-check -u",
-    "netlify": "npm-run-all --parallel test netlify:cypress",
-    "netlify:cypress": "npm-run-all --parallel install:cypress build && npm run test:e2e",
-    "test:e2e": "start-server-and-test serve http://localhost:5020 cy:run",
-    "cy:run": "CYPRESS_BASE_URL=http://localhost:5020 cypress run",
-    "serve": "serve -s build -l 5020",
-    "install:cypress": "cypress install"
+    "upgrade-interactive": "npm-check -u"
   },
   "eslintConfig": {
     "extends": "react-app"
