@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { LoadingStatus, Gist_API, GistFile_API } from './types'
-import { fetchGist } from './api'
+import { LoadingStatus, Gist_API, GistFile_API } from '../../types'
+import { fetchGist } from '../../api'
 import axios from 'axios'
 
 const CancelToken = axios.CancelToken
 
-export default function GistPage({ username, gistId }: { username: string; gistId: string }) {
+export default function GistScene({ username, gistId }: { username: string; gistId: string }) {
   const [gist, setGist] = useState<Gist_API>()
   const [error, setError] = useState(null)
   const [status, setStatus] = useState(LoadingStatus.Loading)

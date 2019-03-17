@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useRef } from 'react'
 import { RouteComponentProps, withRouter } from 'react-router'
 
-function UserSearchPage({ history }: RouteComponentProps) {
+function UserSearchScene({ history }: RouteComponentProps) {
   const input = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -33,4 +33,6 @@ function UserSearchPage({ history }: RouteComponentProps) {
   )
 }
 
-export default withRouter(UserSearchPage)
+
+
+export default withRouter(UserSearchScene)
