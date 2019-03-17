@@ -1,4 +1,7 @@
-import React, { FormEvent, useEffect, useRef } from 'react'
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+import { FormEvent, useEffect, useRef, Fragment } from 'react'
+
 import { RouteComponentProps, withRouter } from 'react-router'
 
 function UserSearchScene({ history }: RouteComponentProps) {
@@ -21,18 +24,53 @@ function UserSearchScene({ history }: RouteComponentProps) {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label>
-          GitHub username:
-          <input ref={input} type="text" name="username" />
+    <Fragment>
+      <h1 css={{ textAlign: 'center' }}>⛲️ Fountain - A GitHub Gist Viewer</h1>
+      <form
+        onSubmit={handleSubmit}
+        css={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginTop: 40,
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <label css={{ marginBottom: 10, textAlign: 'center' }}>
+          GitHub username
+          <input
+            ref={input}
+            type="text"
+            name="username"
+            placeholder="..."
+            css={{
+              marginTop: 5,
+              borderRadius: 5,
+              padding: 5,
+              fontSize: 30,
+              border: '1px solid #00d0ff',
+              display: 'block',
+              width: 300,
+              textAlign: 'center'
+            }}
+          />
         </label>
-        <button>Go</button>
+        <button
+          css={{
+            width: 300,
+            fontSize: 30,
+            padding: 5,
+            borderRadius: 5,
+            backgroundColor: '#00d0ff',
+            color: '#fff',
+            cursor: 'pointer'
+          }}
+        >
+          Go
+        </button>
       </form>
-    </>
+    </Fragment>
   )
 }
-
-
 
 export default withRouter(UserSearchScene)
