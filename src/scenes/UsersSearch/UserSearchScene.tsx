@@ -1,8 +1,9 @@
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
-import { FormEvent, useEffect, useRef, Fragment } from 'react'
+import { FormEvent, useEffect, useRef } from 'react'
 
 import { RouteComponentProps, withRouter } from 'react-router'
+import { darkBlueGrey, shadesOfBlue } from '../../colors'
 
 function UserSearchScene({ history }: RouteComponentProps) {
   const input = useRef<HTMLInputElement>(null)
@@ -24,44 +25,69 @@ function UserSearchScene({ history }: RouteComponentProps) {
   }
 
   return (
-    <Fragment>
-      <h1 css={{ textAlign: 'center' }}>⛲️ Fountain - A GitHub Gist Viewer</h1>
+    <article
+      css={{
+        margin: 20
+      }}
+    >
+      <h1
+        css={{
+          textAlign: 'center',
+          color: darkBlueGrey
+        }}
+      >
+        ⛲️ Fountain - A GitHub Gist Viewer
+      </h1>
       <form
         onSubmit={handleSubmit}
         css={{
-          display: 'flex',
-          justifyContent: 'center',
+          maxWidth: 400,
           marginTop: 40,
-          flexDirection: 'column',
-          alignItems: 'center'
+          marginLeft: 'auto',
+          marginRight: 'auto'
         }}
       >
         <label css={{ marginBottom: 10, textAlign: 'center' }}>
-          GitHub username
+          <span
+            css={{
+              fontWeight: 500,
+              color: '#aaa',
+              marginBottom: 5
+            }}
+          >
+            GitHub username
+          </span>
           <input
             ref={input}
             type="text"
             name="username"
-            placeholder="..."
             css={{
               marginTop: 5,
-              borderRadius: 5,
-              padding: 5,
-              fontSize: 30,
-              border: '1px solid #00d0ff',
+              height: 54,
+              borderRadius: 3,
+              padding: '5px 20px',
+              fontSize: 20,
+              fontWeight: 500,
+              border: 'none',
+              borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+              boxShadow: '0 1px 6px rgba(0, 0, 0, 0.17)',
+              color: shadesOfBlue[3],
               display: 'block',
-              width: 300,
-              textAlign: 'center'
+              width: '100%'
             }}
           />
         </label>
         <button
           css={{
-            width: 300,
-            fontSize: 30,
+            marginTop: 25,
+            height: 54,
+            width: '100%',
+            fontSize: 20,
+            fontWeight: 500,
             padding: 5,
-            borderRadius: 5,
-            backgroundColor: '#00d0ff',
+            borderRadius: 3,
+            backgroundColor: shadesOfBlue[0],
+            border: 'none',
             color: '#fff',
             cursor: 'pointer'
           }}
@@ -69,7 +95,7 @@ function UserSearchScene({ history }: RouteComponentProps) {
           Go
         </button>
       </form>
-    </Fragment>
+    </article>
   )
 }
 
