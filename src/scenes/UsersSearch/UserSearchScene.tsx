@@ -62,6 +62,7 @@ function UserSearchScene({ history }: RouteComponentProps) {
             type="text"
             name="username"
             css={{
+              appearance: 'none',
               marginTop: 5,
               height: 54,
               borderRadius: 3,
